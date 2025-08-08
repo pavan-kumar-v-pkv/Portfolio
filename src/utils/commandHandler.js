@@ -1,5 +1,4 @@
 import { fetchGitHubProjects, formatProjectsForTerminal } from './githubApi.js';
-import { processAIQuery, validateAICommand } from './aiAssistant.js';
 
 const YOUR_EMAIL = "pkvstarscream@gmail.com";
 const GITHUB = "https://github.com/pavan-kumar-v-pkv";
@@ -25,13 +24,10 @@ export default function commandHandler(raw) {
                     "education     - Educational background",
                     "contact       - Get in touch",
                     "resume        - View/download resume",
-                    "ai <question> - Ask AI about me",
                     "clear         - Clear the terminal",
                     "sudo          - Try it 😉",
                     "",
-                    "✨ New features:",
-                    "• GitHub integration for live project data",
-                    "• AI assistant to answer questions about me",
+                    
                     "",
                     "Type any command to explore!"
                 ]
@@ -40,7 +36,7 @@ export default function commandHandler(raw) {
         case "about":
             return { 
                 output: [
-                    "Hi there! 👋",
+                    "Hi there!",
                     "",
                     "I'm Pavan Kumar V, a passionate software developer specializing in",
                     "web development and Generative AI.",
@@ -135,14 +131,14 @@ export default function commandHandler(raw) {
                 output: [
                     "Let's Connect! ",
                     "",
-                    " Email:    " + YOUR_EMAIL,
-                    " GitHub:   " + GITHUB,
-                    " LinkedIn: " + LINKEDIN,
+                    ` Email:    <a href="mailto:${YOUR_EMAIL}" style="color: #58a6ff; text-decoration: underline;">${YOUR_EMAIL}</a>`,
+                    ` GitHub:   <a href="${GITHUB}" target="_blank" rel="noopener noreferrer" style="color: #58a6ff; text-decoration: underline;">${GITHUB}</a>`,
+                    ` LinkedIn: <a href="${LINKEDIN}" target="_blank" rel="noopener noreferrer" style="color: #58a6ff; text-decoration: underline;">${LINKEDIN}</a>`,
                     "",
                     "Feel free to reach out for collaborations,",
-                    "   job opportunities, or just to say hi!",
+                    "job opportunities, or just to say hi!",
                     "",
-                    "Response time: Usually within 24 hours"
+                    
                 ]
             };
         
@@ -151,10 +147,9 @@ export default function commandHandler(raw) {
                 output: [
                     " Resume/CV:",
                     "",
-                    "View online: " + RESUME,
+                    `View online: <a href="${RESUME}" target="_blank" rel="noopener noreferrer" style="color: #58a6ff; text-decoration: underline;">${RESUME}</a>`,
                     "",
-                    " Tip: Right-click the link above and select",
-                    "   'Open in new tab' to view my resume.",
+                    " Tip: Click the link above to view my resume in a new tab.",
                     "",
                     "Available formats: PDF, HTML",
                     "Last updated: August 2025"
@@ -201,59 +196,18 @@ export default function commandHandler(raw) {
                 output: [
                     "Certifications & Courses:",
                     "",
-                    " Machine Learning Specialization", 
+                    "🎓 Machine Learning Specialization", 
                     "   Stanford Online (Coursera) • 2023",
                 ]
             };
         
-        case "ai":
-            const aiValidation = validateAICommand(raw);
-            if (!aiValidation) {
-                return {
-                    output: [
-                        "AI Assistant: Hello! I can answer questions about Pavan Kumar V.",
-                        "",
-                        "Usage: ai <your question>",
-                        "",
-                        "Examples:",
-                        "  ai What skills does Pavan have?",
-                        "  ai Tell me about his experience",
-                        "  ai What projects has he worked on?",
-                        "",
-                        "Type 'ai help' for more information!"
-                    ]
-                };
-            }
-            
-            if (!aiValidation.isValid) {
-                return {
-                    output: [
-                        "🤖 AI Assistant: " + aiValidation.message,
-                        "",
-                        "Example: ai What technologies does Pavan work with?"
-                    ]
-                };
-            }
-            
-            return {
-                output: processAIQuery(aiValidation.query)
-            };
-        
         default:
-            // Check if it's an AI command that wasn't caught by the case
-            if (raw.toLowerCase().startsWith('ai ')) {
-                const query = raw.substring(3).trim();
-                return {
-                    output: processAIQuery(query)
-                };
-            }
-            
             return {
                 output: [
                     `bash: ${cmd}: command not found`,
                     "",
-                    "Try 'help' to see available commands.",
-                    "Or ask the AI: ai <your question>"
+                    "Type 'help' to see available commands.",
+                    " Try commands like 'about', 'projects', or 'contact'!"
                 ]
             };
     }
