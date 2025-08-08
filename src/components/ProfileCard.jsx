@@ -72,7 +72,7 @@ export default function ProfileCard() {
             border: '2px solid #30363d'
           }}>
             <img 
-              src="/profile image.jpeg"
+              src="/profile-image.jpeg"
               alt="Pavan Kumar V"
               style={{
                 width: '100%',
@@ -148,47 +148,6 @@ export default function ProfileCard() {
           }}>
             Software Engineer
           </p>
-          
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '12px',
-            marginTop: '8px'
-          }}>
-            <div style={{
-              padding: '6px 12px',
-              background: 'rgba(88, 166, 255, 0.1)',
-              border: '1px solid rgba(88, 166, 255, 0.3)',
-              borderRadius: '16px',
-              color: '#58a6ff',
-              fontSize: '12px',
-              fontWeight: '500'
-            }}>
-              React
-            </div>
-            <div style={{
-              padding: '6px 12px',
-              background: 'rgba(88, 166, 255, 0.1)',
-              border: '1px solid rgba(88, 166, 255, 0.3)',
-              borderRadius: '16px',
-              color: '#58a6ff',
-              fontSize: '12px',
-              fontWeight: '500'
-            }}>
-              Node.js
-            </div>
-            <div style={{
-              padding: '6px 12px',
-              background: 'rgba(88, 166, 255, 0.1)',
-              border: '1px solid rgba(88, 166, 255, 0.3)',
-              borderRadius: '16px',
-              color: '#58a6ff',
-              fontSize: '12px',
-              fontWeight: '500'
-            }}>
-              AI/ML
-            </div>
-          </div>
         </div>
 
         {/* Decorative elements */}
