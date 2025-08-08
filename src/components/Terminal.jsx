@@ -22,11 +22,24 @@ export default function Terminal() {
             setLines(result.output?.map(t => ({ type: "output", text: t })) || []); // Clear the terminal output if specified
         }
         else{
-            setLines(prev => [
-                ...prev,
-                ...(result.output || [{ text: "No output" }]).map(t => ({type: "output", text: t }))
-            ]);
+            pushTypedLines(result.output || ["No output"]);
         }
+    }
+
+    function pushTypedLines(linesToType = [], speed = 18) {
+        (async () => {
+            for (const line of linesToType) {
+                setLines(prev => [...prev, { type: "output", text: "" }]);
+                for (let i=1;i<=line.length;i++) {
+                    setLines(prev => {
+                        const copy = [...prev];
+                        copy[copy.length - 1] = { type: "output", text: line.slice(0, i) };
+                        return copy;
+                    });
+                    await new Promise(resolve => setTimeout(resolve, speed)); // Wait for the specified speed before typing the next character
+                }
+            }
+        })();
     }
 
     const handleSubmit = (e) => {
