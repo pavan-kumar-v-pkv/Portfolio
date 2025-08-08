@@ -1,0 +1,87 @@
+.portfolio-footer {
+    background: var(--bg);
+    border-top: 1px solid var(--muted);
+    padding: 8px 0;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    width: 100%;
+    height: 50px;
+    flex-shrink: 0;
+}
+
+.footer-content {
+    width: 100%;
+    max-width: 100vw;
+    margin: 0;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+}
+
+.prompt-indicator {
+    color: var(--prompt);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+}
+
+.live-clock {
+    color: var(--prompt);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    background: transparent;
+    padding: 4px 8px;
+    border-radius: 4px;
+    min-width: 160px;
+    max-width: 200px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .prompt-indicator,
+    .live-clock {
+        font-size: 13px;
+    }
+    
+    .live-clock {
+        min-width: 160px;
+    }
+}
+
+@media (max-width: 480px) {
+    .prompt-indicator,
+    .live-clock {
+        font-size: 12px;
+    }
+    
+    .live-clock {
+        min-width: 140px;
+        padding: 3px 6px;
+    }
+}

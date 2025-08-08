@@ -1,4 +1,4 @@
-import Reacr from 'react';
+import React from 'react';
 import Terminal from "./components/Terminal"; // Import the Terminal component
 
 export default function App() {

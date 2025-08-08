@@ -1,0 +1,90 @@
+.card-3d {
+    transition: transform 0.1s ease-out;
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
+
+.card-3d-inner {
+    background: var(--bg);
+    border: 1px solid var(--muted);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.1),
+        0 8px 32px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-3d-inner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.03) 50%,
+        transparent 100%
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card-3d:hover .card-3d-inner::before {
+    opacity: 1;
+}
+
+.card-3d:hover .card-3d-inner {
+    box-shadow: 
+        0 8px 16px rgba(0, 0, 0, 0.15),
+        0 16px 64px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(88, 166, 255, 0.2);
+}
+
+/* Light theme adjustments */
+.light .card-3d-inner {
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.05),
+        0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+.light .card-3d:hover .card-3d-inner {
+    box-shadow: 
+        0 8px 16px rgba(0, 0, 0, 0.1),
+        0 16px 64px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(9, 105, 218, 0.2);
+}
+
+.light .card-3d-inner::before {
+    background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(0, 0, 0, 0.03) 50%,
+        transparent 100%
+    );
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .card-3d-inner {
+        padding: 15px;
+        border-radius: 8px;
+    }
+}
+
+/* Disable 3D effects on mobile for better performance */
+@media (max-width: 768px) {
+    .card-3d {
+        transform: none !important;
+    }
+    
+    .card-3d:hover .card-3d-inner {
+        box-shadow: 
+            0 4px 8px rgba(0, 0, 0, 0.1),
+            0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+}
