@@ -103,7 +103,7 @@ export default function ProfileCard() {
                         <h2>{PROFILE.name}</h2>
                         <p className="role">{PROFILE.role}</p>
                         <ul className="tags" aria-label="Focus areas">
-                            <li>React</li><li>Python</li><li>DevOps</li><li>GenAI</li>
+                            <li>Python</li><li>GenAI</li><li>RAG</li><li>FastAPI</li>
                         </ul>
                         <nav className="socials" aria-label="Links">
                             {SOCIALS.map(s => (

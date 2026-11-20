@@ -15,21 +15,61 @@ import { fetchGitHubProjects, formatProjectsForTerminal } from './githubApi.js';
 
 export const PROFILE = {
     name: 'Pavan Kumar V',
-    role: 'Software Engineer',
-    email: 'pkvstarscream@gmail.com',
+    role: 'AI/ML & Backend Engineer',
+    email: 'pavankumarvpkv@gmail.com',
     github: 'https://github.com/pavan-kumar-v-pkv',
     linkedin: 'https://www.linkedin.com/in/pavan-kumar-v-53881524b/',
     resume: 'https://drive.google.com/file/d/1z0NmKa8u_Dsn6eteyJq-gdyZiW8b40vC/view?usp=drive_link',
 };
 
-const SKILLS = {
-    Languages: ['JavaScript', 'Python', 'Java', 'C++'],
-    Frontend: ['React', 'HTML5', 'CSS3', 'Tailwind CSS'],
-    Backend: ['Node.js', 'Express', 'Django'],
-    Databases: ['PostgreSQL', 'MySQL'],
-    DevOps: ['Docker', 'Jenkins', 'CI/CD'],
-    Tools: ['Git', 'VS Code', 'Postman'],
-};
+const SKILLS = [
+    'Python', 'JavaScript', 'SQL', 'C++',
+    'LangGraph', 'LangChain', 'LlamaIndex', 'RAG', 'Weaviate',
+    'FastAPI', 'Node.js', 'PostgreSQL', 'MongoDB',
+    'AWS', 'Docker', 'Jenkins', 'Git',
+];
+
+const FEATURED = [
+    {
+        name: 'AI Investment & Trading Engine',
+        year: '2026',
+        note: 'private repo, available on request',
+        desc: 'Broker-independent trading research platform for Indian markets: NSE calendar service, event-driven backtester with risk limits and audited paper execution. 270+ pytest tests.',
+        stack: ['Python', 'pytest'],
+    },
+    {
+        name: 'ContractGuard',
+        year: '2025',
+        url: 'https://github.com/pavan-kumar-v-pkv/ContractGuard-Multi-Agent-Legal-Document-Analyzer',
+        desc: 'AI legal document analyzer: 5 LangGraph agents for clause extraction, comparison and risk analysis, on a local-first LlamaIndex + ChromaDB hybrid-search RAG pipeline.',
+        stack: ['LangGraph', 'LlamaIndex', 'ChromaDB', 'FastAPI'],
+    },
+    {
+        name: 'MyOwnCloud',
+        year: '2025',
+        url: 'https://github.com/pavan-kumar-v-pkv/MyOwnCloud',
+        desc: 'Self-hosted AI file storage with expiring share links, Groq LLaMA 3 tagging, OCR and content-based search.',
+        stack: ['Node.js', 'PostgreSQL', 'Groq', 'Docker'],
+    },
+];
+
+function featuredLines() {
+    return [
+        [{ text: 'Featured projects', cls: 'bold' }],
+        '',
+        ...FEATURED.flatMap(p => [
+            [
+                { text: '★ ', cls: 'warn' },
+                p.url ? { text: p.name, href: p.url, cls: 'bold' } : { text: p.name, cls: 'bold' },
+                { text: `  ${p.year}`, cls: 'muted' },
+                ...(p.note ? [{ text: ` · ${p.note}`, cls: 'muted' }] : []),
+            ],
+            ['  ', p.desc],
+            ['  ', ...p.stack.flatMap((t, i) => [...(i ? [' '] : []), { text: `#${t}`, cls: 'tag' }])],
+            '',
+        ]),
+    ];
+}
 
 const THEMES = ['blue', 'green', 'amber', 'purple'];
 
@@ -42,7 +82,6 @@ const HELP = [
     ['education', 'Where I studied'],
     ['contact', 'Get in touch'],
     ['resume', 'Open my resume'],
-    ['neofetch', 'System info, portfolio edition'],
     ['theme', 'Cycle the accent colour'],
     ['clear', 'Clear the screen'],
 ];
@@ -53,8 +92,6 @@ export const COMMANDS = [
     'help', 'whoami', 'ls', 'pwd', 'date', 'echo', 'history',
     'certifications', 'sudo', 'exit',
 ];
-
-const startedAt = Date.now();
 
 const link = (text, href) => ({ text, href });
 const chip = (cmd, text = cmd) => ({ text, cmd });
@@ -83,12 +120,6 @@ function suggest(cmd) {
         if (d < bestScore) { best = c; bestScore = d; }
     }
     return bestScore <= 2 ? best : null;
-}
-
-function uptime() {
-    const s = Math.floor((Date.now() - startedAt) / 1000);
-    const m = Math.floor(s / 60);
-    return m ? `${m} min ${s % 60} sec` : `${s} sec`;
 }
 
 export function welcomeLines() {
@@ -126,13 +157,15 @@ export default function commandHandler(raw, ctx = {}) {
                 output: [
                     [{ text: 'Hi there! 👋', cls: 'bold' }],
                     '',
-                    ["I'm ", { text: PROFILE.name, cls: 'accent' }, ', a software engineer who enjoys building'],
-                    'for the web and exploring Generative AI.',
+                    ["I'm ", { text: PROFILE.name, cls: 'accent' }, ', an AI/ML and backend engineer in Bengaluru.'],
                     '',
-                    ['Most recently I was a ', { text: 'DevOps Intern at HPE', cls: 'success' }, ', containerising'],
-                    'simulators and wiring them into Jenkins CI pipelines.',
+                    ["I'm a ", { text: 'Member of Technical Staff at MetricStream', cls: 'success' }, ', building production'],
+                    'multi-agent and RAG systems for an enterprise governance, risk and compliance (GRC)',
+                    'platform with LangGraph, FastAPI, Weaviate and MongoDB.',
                     '',
-                    ['Next: ', chip('projects'), ' · ', chip('experience'), ' · ', chip('contact')],
+                    'I care about deterministic, well-tested systems around LLMs.',
+                    '',
+                    ['Next: ', chip('experience'), ' · ', chip('projects'), ' · ', chip('contact')],
                 ],
             };
 
@@ -140,39 +173,48 @@ export default function commandHandler(raw, ctx = {}) {
             return {
                 loading: 'Fetching latest projects from GitHub',
                 async: async () => {
-                    const projects = await fetchGitHubProjects();
-                    return formatProjectsForTerminal(projects, PROFILE.github);
+                    try {
+                        const featured = new Set(FEATURED.map(f => f.url?.toLowerCase()));
+                        const projects = (await fetchGitHubProjects()).filter(p => !featured.has(p.url.toLowerCase()));
+                        return [...featuredLines(), ...formatProjectsForTerminal(projects, PROFILE.github)];
+                    } catch {
+                        return [
+                            ...featuredLines(),
+                            [{ text: "Couldn't load the rest from GitHub right now. ", cls: 'muted' }, 'See ', link('github.com/pavan-kumar-v-pkv', PROFILE.github)],
+                        ];
+                    }
                 },
             };
 
         case 'skills':
             return {
                 output: [
-                    [{ text: 'Technical Skills', cls: 'bold' }],
+                    [{ text: 'Skills', cls: 'bold' }],
                     '',
-                    ...Object.entries(SKILLS).flatMap(([group, items]) => [
-                        [{ text: pad(group, 12), cls: 'accent' }, ...items.flatMap((s, i) => [
-                            ...(i ? [{ text: ' · ', cls: 'muted' }] : []),
-                            { text: s, cls: 'tag' },
-                        ])],
-                    ]),
+                    SKILLS.flatMap((sk, i) => [...(i ? [{ text: ' · ', cls: 'muted' }] : []), { text: sk, cls: 'tag' }]),
                 ],
             };
 
-        case 'experience':
+        case 'experience': {
+            const bullet = (t) => ['  ', { text: '▸ ', cls: 'accent' }, t];
             return {
                 output: [
                     [{ text: 'Work Experience', cls: 'bold' }],
                     '',
-                    [{ text: '● ', cls: 'success' }, { text: 'DevOps Intern', cls: 'bold' }, ' @ ', { text: 'Hewlett Packard Enterprise', cls: 'accent' }],
-                    [{ text: '│ ', cls: 'muted' }, { text: 'Feb 2025 – Jul 2025', cls: 'muted' }],
-                    [{ text: '│ ', cls: 'muted' }, '▸ Dockerised simulators for Ubuntu'],
-                    [{ text: '│ ', cls: 'muted' }, '▸ Integrated Docker-based simulators into the Jenkins CI pipeline'],
-                    [{ text: '│ ', cls: 'muted' }, '▸ Automated smoke/unit tests with Python and shell scripting'],
-                    [{ text: '│ ', cls: 'muted' }, '▸ Maintained Confluence documentation for CI/CD processes'],
-                    [{ text: '╵', cls: 'muted' }],
+                    [{ text: '● ', cls: 'success' }, { text: 'Member of Technical Staff', cls: 'bold' }, ' @ ', { text: 'MetricStream', cls: 'accent' }],
+                    ['  ', { text: 'Nov 2025 – Present · Bengaluru', cls: 'muted' }],
+                    bullet('Build multi-agent RAG systems with LangGraph and Weaviate for an enterprise GRC platform, including a FastAPI Classification Service that processes 10K+ GRC objects'),
+                    bullet('Designed an AI-assisted regulatory-change workflow: multi-step LLM pipeline on LangGraph, MongoDB-backed state, multi-level human review and write-back to the core product'),
+                    bullet('Delivered LLM-driven risk-indicator analytics (rolling-window trend classification, two-level threshold breach logic), packaged as a Docker image'),
+                    bullet('Built an automated pipeline to download and ingest regulatory PDFs from public legislation sites, with failure recovery across 200+ source files'),
+                    '',
+                    [{ text: '● ', cls: 'muted' }, { text: 'Software Engineering Intern', cls: 'bold' }, ' @ ', { text: 'Hewlett Packard Enterprise', cls: 'accent' }],
+                    ['  ', { text: 'Feb 2025 – Jul 2025 · Bengaluru', cls: 'muted' }],
+                    bullet('Built containerised Docker and Jenkins CI/CD pipelines handling 50+ daily deployments for SD-WAN/WLAN solutions'),
+                    bullet('Created reusable deployment workflows that cut release time by 30% and deployment errors by 25%'),
                 ],
             };
+        }
 
         case 'education':
             return {
@@ -180,7 +222,8 @@ export default function commandHandler(raw, ctx = {}) {
                     [{ text: 'Education', cls: 'bold' }],
                     '',
                     [{ text: '🎓 ', cls: '' }, { text: 'B.E. Computer Science and Engineering', cls: 'bold' }],
-                    [{ text: '   ' }, { text: 'RV Institute of Technology and Management', cls: 'accent' }, { text: ' · 2022 – 2025', cls: 'muted' }],
+                    [{ text: '   ' }, { text: 'RV Institute of Technology and Management', cls: 'accent' }, { text: ' · 2025', cls: 'muted' }],
+                    [{ text: '   ' }, 'CGPA ', { text: '9.33', cls: 'success bold' }],
                     '',
                     ['See also: ', chip('certifications')],
                 ],
@@ -192,7 +235,11 @@ export default function commandHandler(raw, ctx = {}) {
                     [{ text: 'Certifications', cls: 'bold' }],
                     '',
                     ['📜 ', { text: 'Machine Learning Specialization', cls: 'bold' }],
-                    [{ text: '   ' }, { text: 'Stanford Online (Coursera) · 2023', cls: 'muted' }],
+                    [{ text: '   ' }, { text: 'DeepLearning.AI · 2024', cls: 'muted' }],
+                    '',
+                    [{ text: 'Leadership', cls: 'bold' }],
+                    '',
+                    ['🤝 ', 'E-Cell · Datascape · NSS'],
                 ],
             };
 
@@ -216,23 +263,6 @@ export default function commandHandler(raw, ctx = {}) {
                     ['📄 Opening resume in a new tab… ', { text: '(blocked? ', cls: 'muted' }, link('click here', PROFILE.resume), { text: ')', cls: 'muted' }],
                 ],
             };
-
-        case 'neofetch': {
-            const info = [
-                [{ text: 'pavan', cls: 'accent bold' }, '@', { text: 'portfolio', cls: 'accent bold' }],
-                [{ text: '───────────────', cls: 'muted' }],
-                [{ text: 'OS       ', cls: 'accent' }, 'PortfolioOS (React 19 + Vite)'],
-                [{ text: 'Role     ', cls: 'accent' }, PROFILE.role],
-                [{ text: 'Focus    ', cls: 'accent' }, 'Web · GenAI · DevOps'],
-                [{ text: 'Shell    ', cls: 'accent' }, 'pksh 2.0'],
-                [{ text: 'Uptime   ', cls: 'accent' }, uptime()],
-                [{ text: 'Theme    ', cls: 'accent' }, ctx.theme || 'blue'],
-                [{ text: 'Langs    ', cls: 'accent' }, 'JS, Python, Java, C++'],
-                '',
-                [{ text: '███', cls: 'c1' }, { text: '███', cls: 'c2' }, { text: '███', cls: 'c3' }, { text: '███', cls: 'c4' }, { text: '███', cls: 'c5' }, { text: '███', cls: 'c6' }],
-            ];
-            return { output: info };
-        }
 
         case 'theme': {
             const wanted = arg.toLowerCase();
