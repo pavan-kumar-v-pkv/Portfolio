@@ -1,29 +1,44 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="blue">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Pavan Kumar V - Software Developer & AI Enthusiast. Interactive terminal-style portfolio showcasing projects, skills, and experience." />
-    <meta name="keywords" content="Pavan Kumar V, Software Developer, Web Developer, AI Engineer, Portfolio, React, JavaScript, Python" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0d12" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>Pavan Kumar V — Software Engineer</title>
+    <meta name="description" content="Pavan Kumar V — Software Engineer working across web development, Generative AI and DevOps. Explore projects, skills and experience through an interactive terminal." />
     <meta name="author" content="Pavan Kumar V" />
-    
-    <!-- Open Graph / Facebook -->
+    <link rel="canonical" href="https://pavankumarv.vercel.app/" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://your-portfolio-url.com/" />
-    <meta property="og:title" content="Pavan Kumar V - Software Developer Portfolio" />
-    <meta property="og:description" content="Interactive terminal-style portfolio showcasing projects, skills, and experience in web development and AI." />
-    
+    <meta property="og:url" content="https://pavankumarv.vercel.app/" />
+    <meta property="og:title" content="Pavan Kumar V — Software Engineer" />
+    <meta property="og:description" content="Interactive terminal-style portfolio: projects, skills and experience in web development, GenAI and DevOps." />
+    <meta property="og:image" content="https://pavankumarv.vercel.app/profile-image.jpeg" />
+
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://your-portfolio-url.com/" />
-    <meta property="twitter:title" content="Pavan Kumar V - Software Developer Portfolio" />
-    <meta property="twitter:description" content="Interactive terminal-style portfolio showcasing projects, skills, and experience in web development and AI." />
-    
-    <title>Pavan Kumar V - Software Developer Portfolio</title>
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Pavan Kumar V — Software Engineer" />
+    <meta name="twitter:description" content="Interactive terminal-style portfolio: projects, skills and experience in web development, GenAI and DevOps." />
+    <meta name="twitter:image" content="https://pavankumarv.vercel.app/profile-image.jpeg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" />
+    <link rel="preload" as="image" href="/profile-image.jpeg" />
+
+    <script>
+      try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p style="font-family:monospace;color:#d1d9e2;padding:24px">Pavan Kumar V — Software Engineer. Enable JavaScript for the interactive terminal, or visit
+      <a href="https://github.com/pavan-kumar-v-pkv">GitHub</a> / <a href="https://www.linkedin.com/in/pavan-kumar-v-53881524b/">LinkedIn</a>.</p>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
