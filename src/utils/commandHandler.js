@@ -19,7 +19,7 @@ export const PROFILE = {
     email: 'pavankumarvpkv@gmail.com',
     github: 'https://github.com/pavan-kumar-v-pkv',
     linkedin: 'https://www.linkedin.com/in/pavan-kumar-v-53881524b/',
-    resume: 'https://drive.google.com/file/d/1z0NmKa8u_Dsn6eteyJq-gdyZiW8b40vC/view?usp=drive_link',
+    resume: 'https://drive.google.com/file/d/11VP2IDrfcXjoGx7072awcaxzws9W4MZm/view?usp=sharing',
 };
 
 const SKILLS = [
