@@ -1,39 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/footer.css';
 
 export default function Footer() {
-    const [currentTime, setCurrentTime] = useState(new Date());
+    const [now, setNow] = useState(() => new Date());
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentTime(new Date());
-        }, 1000);
-
-        return () => clearInterval(timer);
+        const t = setInterval(() => setNow(new Date()), 1000);
+        return () => clearInterval(t);
     }, []);
-
-    const formatTime = (date) => {
-        return date.toLocaleString('en-US', {
-            month: 'numeric',
-            day: 'numeric', 
-            year: 'numeric',
-            hour: 'numeric',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true
-        });
-    };
 
     return (
         <footer className="portfolio-footer">
-            <div className="footer-content">
-                <div className="footer-left">
-                    <span className="prompt-indicator">pavan@portfolio:~$</span>
-                </div>
-                <div className="footer-right">
-                    <span className="live-clock">{formatTime(currentTime)}</span>
-                </div>
-            </div>
+            <span className="footer-status"><span className="pulse" />online</span>
+            <span className="footer-hints">
+                <kbd>Tab</kbd> complete <kbd>↑</kbd><kbd>↓</kbd> history <kbd>Ctrl</kbd>+<kbd>L</kbd> clear
+            </span>
+            <time className="live-clock" dateTime={now.toISOString()}>
+                {now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+            </time>
         </footer>
     );
 }

@@ -1,30 +1,30 @@
-import React from 'react';
+import { PROFILE } from '../utils/commandHandler';
 import '../styles/header.css';
 
-export default function Header({ onCommandClick }) {
-    const commands = ['help', 'about', 'projects', 'skills', 'experience', 'contact', 'education', 'sudo', 'clear'];
+const NAV = ['help', 'about', 'projects', 'skills', 'experience', 'education', 'contact', 'resume'];
 
+export default function Header({ onCommandClick, active }) {
     return (
         <header className="portfolio-header">
-            <div className="header-content">
-                <div className="header-title">
-                    <h1>Pavan Kumar V</h1>
-                    <p>Software Engineer</p>
+            <div className="header-title">
+                <span className="logo" aria-hidden="true">&gt;_</span>
+                <div>
+                    <h1>{PROFILE.name}</h1>
+                    <p>{PROFILE.role}</p>
                 </div>
-                <nav className="header-nav">
-                    {commands.map((cmd, index) => (
-                        <React.Fragment key={cmd}>
-                            <button 
-                                className="nav-link"
-                                onClick={() => onCommandClick(cmd)}
-                            >
-                                {cmd}
-                            </button>
-                            {index < commands.length - 1 && <span className="nav-separator"> | </span>}
-                        </React.Fragment>
-                    ))}
-                </nav>
             </div>
+            <nav className="header-nav" aria-label="Commands">
+                {NAV.map(cmd => (
+                    <button
+                        key={cmd}
+                        className={`nav-link${active === cmd ? ' active' : ''}`}
+                        aria-current={active === cmd ? 'true' : undefined}
+                        onClick={() => onCommandClick(cmd)}
+                    >
+                        {cmd}
+                    </button>
+                ))}
+            </nav>
         </header>
     );
 }
