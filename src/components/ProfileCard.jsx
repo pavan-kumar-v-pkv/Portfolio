@@ -94,7 +94,10 @@ export default function ProfileCard() {
             <article className="profile-card" ref={cardRef}>
                 <div className="profile-card-inner">
                     <div className="avatar">
-                        <img src="/profile-image.jpeg" alt={PROFILE.name} width="260" height="260" decoding="async" />
+                        <picture>
+                            <source media="(max-width: 860px)" srcSet="/profile-square.jpg" />
+                            <img src="/profile.jpg" alt={PROFILE.name} width="600" height="750" decoding="async" />
+                        </picture>
                         <span className="avatar-ring" aria-hidden="true" />
                     </div>
 
